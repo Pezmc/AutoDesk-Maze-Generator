@@ -160,7 +160,7 @@ $(document).ready(function() {
     $(window).keydown(function(evt) {
         enablekeys = false;
         // If it's still running a transition, then the user can get stuffed.
-        if(viewer.navigation.getTransitionActive()) return false;
+        if(viewer.navigation.getTransitionActive() || !enablekeys) return false;
 
         switch (evt.which) {
             case 37: // left
@@ -184,7 +184,7 @@ $(document).ready(function() {
         evt.stopPropagation();
         timeout(100, function() {
             enableKeys = true;
-        }
+        });
         return false;
     });
 
