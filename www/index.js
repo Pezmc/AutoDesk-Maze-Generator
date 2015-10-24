@@ -119,7 +119,7 @@ $(document).ready(function() {
         events.forEach(function(evt) {
                 viewer.addEventListener(evt.id, function(
                     stuff) {
-                    console.log(evt.name, stuff);
+                    //console.log(evt.name, stuff);
                 });
             })
         viewer.load(pathInfoCollection.path3d[0].path, null,
@@ -139,7 +139,6 @@ function modelHasLoaded() {
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
     viewer.navigation.setPosition(new THREE.Vector3(30, 0, 0));
     console.log(viewer.navigation.getRequestHomeView());
-    debugger
 }
 
 function onError(error) {
@@ -148,19 +147,20 @@ function onError(error) {
 
 function resetView() {
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
-    viewer.navigation.setPosition(new THREE.Vector3(0, 0, 5));
+    viewer.navigation.setPosition(new THREE.Vector3(0, 0, 1));
     viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
 }
 
 $(window).keydown(function(evt) {
     switch (evt.which) {
         case 37: // left
+            rotate('left');
             break;
         case 38: // up
             moveForwards();
             break;
         case 39: // right
-            rotateRight();
+            rotate('right');
             break;
         case 40: // down
             break;
@@ -177,32 +177,45 @@ $(window).keydown(function(evt) {
 function moveForwards() {}
 var currentDirection = 0;
 
-function rotateRight() {
-        console.log("Rotating right");
-        currentPosition = viewer.navigation.getPosition()
-        switch (currentDirection) {
-            case 0:
-                currentPosition.x += 1;
-                currentDirection = 1;
-                break;
-            case 1:
-                currentPosition.y += 1;
-                currentDirection = 2;
-                break;
-            case 2:
-                currentPosition.x += -1;
-                currentDirection = 3;
-                break;
-            case 3:
-                currentPosition.y += -1;
-                currentDirection = 0;
-                break;
-        }
-        currentPosition.z = 0;
-        viewer.navigation.setTarget(currentPosition)
-        console.log('Setting target to', currentPosition);
-        console.log('Current position', viewer.navigation.getPosition());
+function rotate(direction) {
+    switch(direction) {
+        case 'left':
+            newDirection = currentDirection - 1;
+            break;
+        case 'right':
+            newDirection = currentDirection + 1;
+            break;
     }
+
+    if(newDirection == 4) newDirection = 0;
+    if(newDirection == -1)  newDirection = 3;
+
+    console.log("Rotating to", direction);
+    currentPosition = viewer.navigation.getPosition()
+
+    switch (newDirection) {
+        case 0:
+            currentPosition.x += 1;
+            currentDirection = 1;
+            break;
+        case 1:
+            currentPosition.y += 1;
+            currentDirection = 2;
+            break;
+        case 2:
+            currentPosition.x += -1;
+            currentDirection = 3;
+            break;
+        case 3:
+            currentPosition.y += -1;
+            currentDirection = 0;
+            break;
+    }
+    currentPosition.z = 0;
+    viewer.navigation.setTarget(currentPosition)
+    console.log('Setting target to', currentPosition);
+    console.log('Current position', viewer.navigation.getPosition());
+}
     // The following code does not rely on Autodesk.ADN.Toolkit.Viewer.AdnViewerManager
     // and uses the Autodesk API directly.
     //
