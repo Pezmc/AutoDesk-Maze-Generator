@@ -16,10 +16,11 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
 
-var startingMazeCoord = {'x': 1, 'y': 0};
-var currentMazeCoord = startingMazeCoord;
+var startingMazeCoord = {x: 1, y: 1};
+var currentMazeCoord = {x: startingMazeCoord.x, y: startingMazeCoord.y};
+var finishingMazeCoord = {'x': 20, 'y': 19};
 
-var maze = [[1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+var maze = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
             [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
             [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
@@ -40,6 +41,9 @@ var maze = [[1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
             [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
+
+var soundWallHit = new buzz.sound('/sounds/WallHit.ogg');
+var soundFinished = new buzz.sound('/sounds/Finished.ogg');
 
 var events = [{
     id: Autodesk.Viewing.CAMERA_CHANGE_EVENT,
@@ -125,7 +129,7 @@ var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV
 var viewer;
 
 var currentDirection = 2; 
-var enablekeys = true;
+var enableKeys = true;
 $(document).ready(function() {
     var tokenurl = 'http://' + window.location.host + '/api/token';
     var config = {
@@ -147,7 +151,7 @@ $(document).ready(function() {
         events.forEach(function(evt) {
                 viewer.addEventListener(evt.id, function(
                     stuff) {
-                    console.log(evt.name, stuff);
+                    //console.log(evt.name, stuff);
                 });
             })
         viewer.load(pathInfoCollection.path3d[0].path, null, resetView);
@@ -160,9 +164,10 @@ $(document).ready(function() {
     
     $(window).keydown(function(evt) {
         evt.stopPropagation();
+        evt.preventDefault();
         // If it's still running a transition, then the user can get stuffed.
-        if(viewer.navigation.getTransitionActive() || !enablekeys) return false;
-        enablekeys = false;
+        if(viewer.navigation.getTransitionActive() || !enableKeys) return false;
+        enableKeys = false;
 
         switch (evt.which) {
             case 37: // left
@@ -183,9 +188,9 @@ $(document).ready(function() {
             default:
                 return; // exit this handler for other keys
         }
-        timeout(100, function() {
+        setTimeout(function() {
             enableKeys = true;
-        });
+        }, 400);
         return false;
     });
 
@@ -203,8 +208,8 @@ function resetView() {
     viewer.setFocalLength(1);
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
     currentDirection = 2;
-    updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6));
-    currentMazeCoord = {'x': 0, 'y': 1};
+    updateCameraPosition(new THREE.Vector3(-0.9, -0.9, playerHeight / 6));
+    currentMazeCoord = {'x': startingMazeCoord.x, 'y': startingMazeCoord.y};
     //viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
 }
 
@@ -242,16 +247,24 @@ function move(direction) {
             break;
     }
     
-    if(maze[currentMazeCoord.x][currentMazeCoord.y]) {
+    if(maze[currentMazeCoord.x] && maze[currentMazeCoord.x][currentMazeCoord.y]) {
         console.log('You hit a wall!');
+        soundWallHit.play();
         console.log('New Maze Position: ', currentMazeCoord);
         currentMazeCoord = previousMazeCoord;
         console.log('Restored Maze Position: ', currentMazeCoord);
         return false;
     }
     
+    if(currentMazeCoord.x == finishingMazeCoord.x && currentMazeCoord.y == finishingMazeCoord.y)
+        reachedFinish();
+    
     console.log('New Maze Position: ', currentMazeCoord);
     updateCameraPosition(position);
+}
+
+function reachedFinish() {
+    soundFinished.play();
 }
 
 function rotate(direction) {
