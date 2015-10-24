@@ -42,27 +42,37 @@ $(document).ready(function () {
     viewerFactory.getViewablePath (urn,
         function(pathInfoCollection) { // GuiViewer3D
             var viewerConfig = {
-                viewerType: 'Viewer3D' // Viewer3D vs GuiViewer3D
+                viewerType: 'Viewer3D', // Viewer3D vs GuiViewer3D
+                navigationTool: 'default',
             };
 
             viewer = viewerFactory.createViewer(
                 $('#viewerDiv')[0],
                 viewerConfig);
 
-            viewer.load(pathInfoCollection.path3d[0].path);
+            viewer.navigation.setRequestFitToView(false);
+            setUp();
+            viewer.load(pathInfoCollection.path3d[0].path, null, modelHasLoaded);
+            viewer.navigation.setRequestFitToView(false);
+            setUp();
 
-            viewer.toolController.deactivateTool('gestures')
-            viewer.toolController.deactivateTool('hotkeys')
-            viewer.toolController.deactivateTool('orbit')
-            viewer.toolController.deactivateTool('freeorbit')
-            viewer.toolController.deactivateTool('dolly')
-            viewer.toolController.deactivateTool('pan')
-
-            viewer.navigation.setWorldUpVector(new THREE.Vector3(0,0,1), true)
+            
         },
         onError);
 
 });
+
+function setUp() {
+    viewer.navigation.setRequestFitToView(false);
+    viewer.navigation.setWorldUpVector(new THREE.Vector3(0,0,1), true)
+}
+
+function modelHasLoaded() {
+    console.log('Shit loaded yo!');
+
+    setUp();
+    viewer.navigation.setPosition(new THREE.Vector3(5, 0, 5))
+}
 
 function onError(error) {
     console.log('Error: ' + error);
@@ -119,8 +129,12 @@ function rotateRight() {
             currentDirection = 0;
             break;
     }
+    currentPosition.z = 0;
 
     viewer.navigation.setTarget(currentPosition)
+
+    console.log('Setting target to', currentPosition);
+    console.log('Current position', viewer.navigation.getPosition());
 }
 
 // The following code does not rely on Autodesk.ADN.Toolkit.Viewer.AdnViewerManager
