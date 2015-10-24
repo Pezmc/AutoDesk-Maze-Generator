@@ -178,6 +178,7 @@ function moveForwards() {}
 var currentDirection = 0;
 
 function rotate(direction) {
+    console.log(currentDirection);
     switch(direction) {
         case 'left':
             newDirection = currentDirection - 1;
@@ -190,31 +191,29 @@ function rotate(direction) {
     if(newDirection == 4) newDirection = 0;
     if(newDirection == -1)  newDirection = 3;
 
-    console.log("Rotating to", direction);
+    console.log("Rotating to", direction, newDirection);
     currentPosition = viewer.navigation.getPosition()
 
     switch (newDirection) {
         case 0:
             currentPosition.x += 1;
-            currentDirection = 1;
             break;
         case 1:
             currentPosition.y += 1;
-            currentDirection = 2;
             break;
         case 2:
             currentPosition.x += -1;
-            currentDirection = 3;
             break;
         case 3:
             currentPosition.y += -1;
-            currentDirection = 0;
             break;
     }
     currentPosition.z = 0;
     viewer.navigation.setTarget(currentPosition)
     console.log('Setting target to', currentPosition);
     console.log('Current position', viewer.navigation.getPosition());
+
+    currentDirection = newDirection;
 }
     // The following code does not rely on Autodesk.ADN.Toolkit.Viewer.AdnViewerManager
     // and uses the Autodesk API directly.
