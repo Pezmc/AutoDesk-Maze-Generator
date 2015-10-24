@@ -50,6 +50,15 @@ $(document).ready(function () {
                 viewerConfig);
 
             viewer.load(pathInfoCollection.path3d[0].path);
+
+            viewer.toolController.deactivateTool('gestures')
+            viewer.toolController.deactivateTool('hotkeys')
+            viewer.toolController.deactivateTool('orbit')
+            viewer.toolController.deactivateTool('freeorbit')
+            viewer.toolController.deactivateTool('dolly')
+            viewer.toolController.deactivateTool('pan')
+
+            debugger
         },
         onError);
 
@@ -58,6 +67,18 @@ $(document).ready(function () {
 function onError(error) {
     console.log('Error: ' + error);
 };
+
+$(window).keydown(function(evt) {
+    console.log('Stuff');
+    event.stopPropagation();
+    return false;
+});
+
+$('canvas').keydown(function(evt) {
+    console.log('Stuff');
+    event.stopPropagation();
+    return false;
+});
 
 // The following code does not rely on Autodesk.ADN.Toolkit.Viewer.AdnViewerManager
 // and uses the Autodesk API directly.
