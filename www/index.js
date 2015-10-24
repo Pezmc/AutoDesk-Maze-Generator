@@ -16,29 +16,31 @@
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
 
-var maze = [[1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-        [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
-        [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
-        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1],
-        [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1],
-        [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1],
-        [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1],
-        [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1],
-        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
-        [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1],
-        [1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
-        [1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,1],
-        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
+var startingMazeCoord = {'x': 1, 'y': 0};
+var currentMazeCoord = startingMazeCoord;
 
-// Base64 encoded
+var maze = [[1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
+            [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1],
+            [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1],
+            [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1],
+            [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
+            [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
+
 var events = [{
     id: Autodesk.Viewing.CAMERA_CHANGE_EVENT,
     name: 'Autodesk.Viewing.CAMERA_CHANGE_EVENT'
@@ -115,6 +117,8 @@ var events = [{
     id: Autodesk.Viewing.VIEWER_UNINITIALIZED,
     name: 'Autodesk.Viewing.VIEWER_UNINITIALIZED'
 }];
+
+
 var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV9kZXNpZ25fMjBfMjUuc3Rs';
     //'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9tYXplLnN0bA==';
 //https://developer.api.autodesk.com/oss/v1/buckets/hackmcr/objects/scad.scad
@@ -125,7 +129,6 @@ $(document).ready(function() {
     var tokenurl = 'http://' + window.location.host + '/api/token';
     var config = {
         environment: 'AutodeskProduction'
-            //environment : 'AutodeskStaging'
     };
     // Instantiate viewer factory
     var viewerFactory = new Autodesk.ADN.Toolkit.Viewer.AdnViewerFactory(
@@ -139,12 +142,11 @@ $(document).ready(function() {
             viewerType: 'Viewer3D', // Viewer3D vs GuiViewer3D
             navigationTool: 'default',
         };
-        viewer = viewerFactory.createViewer($('#viewerDiv')[0],
-            viewerConfig);
+        viewer = viewerFactory.createViewer($('#viewerDiv')[0], viewerConfig);
         events.forEach(function(evt) {
                 viewer.addEventListener(evt.id, function(
                     stuff) {
-                    //console.log(evt.name, stuff);
+                    console.log(evt.name, stuff);
                 });
             })
         viewer.load(pathInfoCollection.path3d[0].path, null, resetView);
@@ -154,6 +156,38 @@ $(document).ready(function() {
         
         console.log(viewer.navigation.getRequestHomeView());
     }, onError);
+    
+    $(window).keydown(function(evt) {
+        enablekeys = false;
+        // If it's still running a transition, then the user can get stuffed.
+        if(viewer.navigation.getTransitionActive()) return false;
+
+        switch (evt.which) {
+            case 37: // left
+                rotate('left');
+                break;
+            case 38: // up
+                move('forwards');
+                break;
+            case 39: // right
+                rotate('right');
+                break;
+            case 40: // down
+                move('backwards');
+                break;
+            case 32:
+                resetView();
+                break;
+            default:
+                return; // exit this handler for other keys
+        }
+        evt.stopPropagation();
+        timeout(100, function() {
+            enableKeys = true;
+        }
+        return false;
+    });
+
 });
 
 var playerHeight = 0.2 / 6;
@@ -167,59 +201,55 @@ function resetView() {
     viewer.setFocalLength(1);
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
     currentDirection = 2; // default dir
-    updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6))
+    updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6));
+    currentMazeCoord = {'x': 0, 'y': 1};
     //viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
 }
 
-$(window).keydown(function(evt) {
-    switch (evt.which) {
-        case 37: // left
-            rotate('left');
-            break;
-        case 38: // up
-            move('forwards');
-            break;
-        case 39: // right
-            rotate('right');
-            break;
-        case 40: // down
-            move('backwards');
-            break;
-        case 32:
-            resetView();
-            break;
-        default:
-            return; // exit this handler for other keys
-    }
-    evt.stopPropagation();
-    return false;
-});
 
 function move(direction) {
+    
     if(direction == 'backwards') {
         multiplier = -1;
     } else {
         multiplier = 1   
     }
-
+    
     position = viewer.navigation.getPosition();
 
+    console.log('Current Maze Position: ', currentMazeCoord);
+    
+    previousMazeCoord = {x: currentMazeCoord.x, y: currentMazeCoord.y};
+    
     switch (currentDirection) {
         case 0:
-            position.y += -0.1 * multiplier;
+            position.y -= 0.1 * multiplier;
+            currentMazeCoord.x -= (1 * multiplier);
             break;
         case 1:
             position.x += 0.1 * multiplier;
+            currentMazeCoord.y += (1 * multiplier);
             break;
         case 2:
             position.y += 0.1 * multiplier;
+            currentMazeCoord.x += (1 * multiplier);
             break;
         case 3:
-            position.x += -0.1 * multiplier;
+            position.x -= 0.1 * multiplier;
+            currentMazeCoord.y -= (1 * multiplier);
             break;
     }
-
-    updateCameraPosition(position)
+    
+    if(maze[currentMazeCoord.x][currentMazeCoord.y]) {
+        console.log('You hit a wall!');
+        console.log('New Maze Position: ', currentMazeCoord);
+        currentMazeCoord = previousMazeCoord;
+        console.log('Restored Maze Position: ', currentMazeCoord);
+        return false;
+    }
+    
+    console.log('New Maze Position: ', currentMazeCoord);
+    updateCameraPosition(position);
 }
 
 function rotate(direction) {
@@ -241,32 +271,31 @@ function rotate(direction) {
     updateCameraPosition();
 }
 
-function updateCameraPosition(newPosition) {
-    if(newPosition) {
-        position = newPosition;
-        viewer.navigation.setPosition(newPosition);
-        viewer.navigation.setPivotPoint(newPosition);
-    } else {
-        position = viewer.navigation.getPosition();
+function updateCameraPosition(newCameraPosition) {
+    if(!newCameraPosition) {
+        // Use current position for rotation
+        newCameraPosition = viewer.navigation.getPosition();
     }
-
+    
+    targetPosition = newCameraPosition.clone();
+    
     switch (currentDirection) {
         case 0:
-            position.y += -20;
+            targetPosition.y += -20;
             break;
         case 1:
-            position.x += 20;
+            targetPosition.x += 20;
             break;
         case 2:
-            position.y += 20;
+            targetPosition.y += 20;
             break;
         case 3:
-            position.x += -20;
+            targetPosition.x += -20;
             break;
     }
-    position.z = 0;
-
-    viewer.navigation.setTarget(position)
+    targetPosition.z = 0;
+    
+    viewer.navigation.setRequestTransitionWithUp(true, newCameraPosition, targetPosition, viewer.getFOV(), new THREE.Vector3(0, 0, 1));
 }
 
 function updateCameraPositionFloor(newPosition) {
