@@ -20,11 +20,9 @@
 
     <title>Maize</title>
 
-    <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
-
     <!-- jquery -->
     <script src="https://code.jquery.com/jquery-2.1.2.min.js"></script>
-
+    
     <!-- buzz -->
     <script src="buzz.min.js"></script>
 
@@ -36,10 +34,22 @@
     <script src="https://rawgit.com/Developer-Autodesk/library-javascript-view.and.data.api/master/js/Autodesk.ADN.Toolkit.Viewer.js"></script>
 
     <script src="/index.js"></script>
-
+    
+    <style>
+        #splash {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            background: rgba(51,51,51,0.7);
+            z-index: 1000;
+        }
+    </style>
 </head>
 
 <body style="margin:0">
+    <div id="splash">jiblets</div>
 	<div id="viewerDiv"></div>
 	
 </body>
