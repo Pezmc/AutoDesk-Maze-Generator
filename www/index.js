@@ -123,7 +123,7 @@ var events = [{
 }];
 
 
-var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV9kZXNpZ25fMjBfMjUuc3Rs';
+var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV8wMF80My5zdGw=';
     //'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9tYXplLnN0bA==';
 //https://developer.api.autodesk.com/oss/v1/buckets/hackmcr/objects/scad.scad
 var viewer;
