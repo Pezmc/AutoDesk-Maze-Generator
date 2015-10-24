@@ -137,7 +137,7 @@ $(document).ready(function() {
     viewerFactory.getViewablePath(urn, function(pathInfoCollection) { // GuiViewer3D
         var viewerConfig = {
             viewerType: 'Viewer3D', // Viewer3D vs GuiViewer3D
-            //navigationTool: 'default',
+            navigationTool: 'default',
         };
         viewer = viewerFactory.createViewer($('#viewerDiv')[0],
             viewerConfig);
@@ -148,6 +148,7 @@ $(document).ready(function() {
                 });
             })
         viewer.load(pathInfoCollection.path3d[0].path, null, resetView);
+        viewer.setLightPreset(7);
         viewer.removeEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT);
         viewer.removeEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT);
         
@@ -162,9 +163,12 @@ function onError(error) {
 };
 
 function resetView() {
+    viewer.setLightPreset(7);
+    viewer.setFocalLength(1);
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
+    currentDirection = 2; // default dir
     updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6))
-    viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
+    //viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
 }
 
 $(window).keydown(function(evt) {
@@ -173,12 +177,13 @@ $(window).keydown(function(evt) {
             rotate('left');
             break;
         case 38: // up
-            moveForwards();
+            move('forwards');
             break;
         case 39: // right
             rotate('right');
             break;
         case 40: // down
+            move('backwards');
             break;
         case 32:
             resetView();
@@ -190,16 +195,40 @@ $(window).keydown(function(evt) {
     return false;
 });
 
-function moveForwards() {}
+function move(direction) {
+    if(direction == 'backwards') {
+        multiplier = -1;
+    } else {
+        multiplier = 1   
+    }
+
+    position = viewer.navigation.getPosition();
+
+    switch (currentDirection) {
+        case 0:
+            position.y += -0.1 * multiplier;
+            break;
+        case 1:
+            position.x += 0.1 * multiplier;
+            break;
+        case 2:
+            position.y += 0.1 * multiplier;
+            break;
+        case 3:
+            position.x += -0.1 * multiplier;
+            break;
+    }
+
+    updateCameraPosition(position)
+}
 
 function rotate(direction) {
-    console.log(currentDirection);
     switch(direction) {
         case 'left':
-            newDirection = currentDirection - 1;
+            newDirection = currentDirection + 1;
             break;
         case 'right':
-            newDirection = currentDirection + 1;
+            newDirection = currentDirection - 1;
             break;
     }
 
