@@ -184,7 +184,7 @@ $(document).ready(function() {
         evt.stopPropagation();
         timeout(100, function() {
             enableKeys = true;
-        }
+        });
         return false;
     });
 
@@ -201,15 +201,10 @@ function resetView() {
     viewer.setLightPreset(7);
     viewer.setFocalLength(1);
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
-<<<<<<< Updated upstream
-    currentDirection = 2; // default dir
+    currentDirection = 2;
     updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6));
     currentMazeCoord = {'x': 0, 'y': 1};
     //viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
-=======
-    currentDirection = 2;
-    updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6));
->>>>>>> Stashed changes
 }
 
 
