@@ -125,6 +125,7 @@ var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV
 var viewer;
 
 var currentDirection = 2; 
+var enablekeys = true;
 $(document).ready(function() {
     var tokenurl = 'http://' + window.location.host + '/api/token';
     var config = {
@@ -158,9 +159,10 @@ $(document).ready(function() {
     }, onError);
     
     $(window).keydown(function(evt) {
-        enablekeys = false;
+        evt.stopPropagation();
         // If it's still running a transition, then the user can get stuffed.
         if(viewer.navigation.getTransitionActive() || !enablekeys) return false;
+        enablekeys = false;
 
         switch (evt.which) {
             case 37: // left
@@ -181,7 +183,6 @@ $(document).ready(function() {
             default:
                 return; // exit this handler for other keys
         }
-        evt.stopPropagation();
         timeout(100, function() {
             enableKeys = true;
         });
