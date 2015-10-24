@@ -15,6 +15,29 @@
 // DOES NOT WARRANT THAT THE OPERATION OF THE PROGRAM WILL BE
 // UNINTERRUPTED OR ERROR FREE.
 /////////////////////////////////////////////////////////////////////////////////
+
+var maze = [[1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+        [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
+        [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1],
+        [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1],
+        [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1],
+        [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
+        [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+        [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
+
 // Base64 encoded
 var events = [{
     id: Autodesk.Viewing.CAMERA_CHANGE_EVENT,
@@ -92,10 +115,12 @@ var events = [{
     id: Autodesk.Viewing.VIEWER_UNINITIALIZED,
     name: 'Autodesk.Viewing.VIEWER_UNINITIALIZED'
 }];
-var defaultUrn =
-    'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9tYXplLnN0bA==';
+var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV9kZXNpZ25fMjBfMjUuc3Rs';
+    //'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9tYXplLnN0bA==';
 //https://developer.api.autodesk.com/oss/v1/buckets/hackmcr/objects/scad.scad
 var viewer;
+
+var currentDirection = 2; 
 $(document).ready(function() {
     var tokenurl = 'http://' + window.location.host + '/api/token';
     var config = {
@@ -112,7 +137,7 @@ $(document).ready(function() {
     viewerFactory.getViewablePath(urn, function(pathInfoCollection) { // GuiViewer3D
         var viewerConfig = {
             viewerType: 'Viewer3D', // Viewer3D vs GuiViewer3D
-            navigationTool: 'default',
+            //navigationTool: 'default',
         };
         viewer = viewerFactory.createViewer($('#viewerDiv')[0],
             viewerConfig);
@@ -122,10 +147,7 @@ $(document).ready(function() {
                     //console.log(evt.name, stuff);
                 });
             })
-        viewer.load(pathInfoCollection.path3d[0].path, null,
-            modelHasLoaded, function() {
-                debugger;
-            });
+        viewer.load(pathInfoCollection.path3d[0].path, null, resetView);
         viewer.removeEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT);
         viewer.removeEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT);
         
@@ -133,13 +155,7 @@ $(document).ready(function() {
     }, onError);
 });
 
-function modelHasLoaded() {
-    console.log('Shit loaded yo!');
-    console.log(viewer.navigation.getRequestHomeView());
-    viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
-    viewer.navigation.setPosition(new THREE.Vector3(30, 0, 0));
-    console.log(viewer.navigation.getRequestHomeView());
-}
+var playerHeight = 0.2 / 6;
 
 function onError(error) {
     console.log('Error: ' + error);
@@ -147,7 +163,7 @@ function onError(error) {
 
 function resetView() {
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
-    viewer.navigation.setPosition(new THREE.Vector3(0, 0, 1));
+    updateCameraPosition(new THREE.Vector3(-0.9, -1, playerHeight / 6))
     viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
 }
 
@@ -175,7 +191,6 @@ $(window).keydown(function(evt) {
 });
 
 function moveForwards() {}
-var currentDirection = 0;
 
 function rotate(direction) {
     console.log(currentDirection);
@@ -191,29 +206,66 @@ function rotate(direction) {
     if(newDirection == 4) newDirection = 0;
     if(newDirection == -1)  newDirection = 3;
 
-    console.log("Rotating to", direction, newDirection);
-    currentPosition = viewer.navigation.getPosition()
+    console.log("Rotating to", direction, "now at", newDirection);
+
+    currentDirection = newDirection;
+    updateCameraPosition();
+}
+
+function updateCameraPosition(newPosition) {
+    if(newPosition) {
+        position = newPosition;
+        viewer.navigation.setPosition(newPosition);
+        viewer.navigation.setPivotPoint(newPosition);
+    } else {
+        position = viewer.navigation.getPosition();
+    }
+
+    switch (currentDirection) {
+        case 0:
+            position.y += -20;
+            break;
+        case 1:
+            position.x += 20;
+            break;
+        case 2:
+            position.y += 20;
+            break;
+        case 3:
+            position.x += -20;
+            break;
+    }
+    position.z = 0;
+
+    viewer.navigation.setTarget(position)
+}
+
+function updateCameraPositionFloor(newPosition) {
+    if(newPosition) {
+        position = newPosition;
+        viewer.navigation.setPosition(newPosition);
+        viewer.navigation.setPivotPoint(newPosition);
+    } else {
+        position = viewer.navigation.getPosition();
+    }
 
     switch (newDirection) {
         case 0:
-            currentPosition.x += 1;
+            position.x += 20;
             break;
         case 1:
-            currentPosition.y += 1;
+            position.y += 20;
             break;
         case 2:
-            currentPosition.x += -1;
+            position.x += -20;
             break;
         case 3:
-            currentPosition.y += -1;
+            position.y += -20;
             break;
     }
-    currentPosition.z = 0;
-    viewer.navigation.setTarget(currentPosition)
-    console.log('Setting target to', currentPosition);
-    console.log('Current position', viewer.navigation.getPosition());
+    position.z = -10;
 
-    currentDirection = newDirection;
+    viewer.navigation.setTarget(position)
 }
     // The following code does not rely on Autodesk.ADN.Toolkit.Viewer.AdnViewerManager
     // and uses the Autodesk API directly.
