@@ -122,15 +122,13 @@ $(document).ready(function() {
                     console.log(evt.name, stuff);
                 });
             })
-            //setUp();
         viewer.load(pathInfoCollection.path3d[0].path, null,
             modelHasLoaded, function() {
                 debugger;
             });
         viewer.removeEventListener(Autodesk.Viewing.OBJECT_TREE_CREATED_EVENT);
         viewer.removeEventListener(Autodesk.Viewing.GEOMETRY_LOADED_EVENT);
-        //viwer.navigation.fitBounds(false, fitTo);
-        //setUp();
+        
         console.log(viewer.navigation.getRequestHomeView());
     }, onError);
 });
@@ -151,6 +149,7 @@ function onError(error) {
 function resetView() {
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
     viewer.navigation.setPosition(new THREE.Vector3(0, 0, 5));
+    viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
 }
 
 $(window).keydown(function(evt) {
