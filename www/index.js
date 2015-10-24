@@ -20,7 +20,7 @@
 var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9tYXplLnN0bA==';
 
 //https://developer.api.autodesk.com/oss/v1/buckets/hackmcr/objects/scad.scad
-
+var viewer;
 $(document).ready(function () {
     var tokenurl = 'http://' + window.location.host + '/api/token';
     var config = {
@@ -45,7 +45,7 @@ $(document).ready(function () {
                 viewerType: 'Viewer3D' // Viewer3D vs GuiViewer3D
             };
 
-            var viewer = viewerFactory.createViewer(
+            viewer = viewerFactory.createViewer(
                 $('#viewerDiv')[0],
                 viewerConfig);
 
@@ -58,7 +58,7 @@ $(document).ready(function () {
             viewer.toolController.deactivateTool('dolly')
             viewer.toolController.deactivateTool('pan')
 
-            debugger
+            viewer.navigation.setWorldUpVector(new THREE.Vector3(0,0,1), true)
         },
         onError);
 
@@ -69,16 +69,59 @@ function onError(error) {
 };
 
 $(window).keydown(function(evt) {
-    console.log('Stuff');
-    event.stopPropagation();
+    switch(evt.which) {
+        case 37: // left
+        break;
+
+        case 38: // up
+            moveForwards();
+        break;
+
+        case 39: // right
+            rotateRight();
+        break;
+
+        case 40: // down
+
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+
+    evt.stopPropagation();
     return false;
 });
 
-$('canvas').keydown(function(evt) {
-    console.log('Stuff');
-    event.stopPropagation();
-    return false;
-});
+function moveForwards() {
+
+}
+
+var currentDirection = 0;
+function rotateRight() {
+    console.log("Rotating right");
+    currentPosition = viewer.navigation.getPosition()
+
+    switch(currentDirection) {
+        case 0: 
+            currentPosition.x += 1;
+            currentDirection = 1;
+            break;
+        case 1:
+            currentPosition.y += 1;
+            currentDirection = 2;
+            break;
+        case 2:
+            currentPosition.x += -1;
+            currentDirection = 3;
+            break;
+        case 3:
+            currentPosition.y += -1;
+            currentDirection = 0;
+            break;
+    }
+
+    viewer.navigation.setTarget(currentPosition)
+}
 
 // The following code does not rely on Autodesk.ADN.Toolkit.Viewer.AdnViewerManager
 // and uses the Autodesk API directly.
