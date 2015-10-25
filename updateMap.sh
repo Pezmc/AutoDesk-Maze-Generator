@@ -11,6 +11,6 @@ cd ../workflow-curl-view.and.data.api
 ./viewerAPI registerProgress $FILENAME
 
 cd -
-echo $FILENAME > ../workflow-node.js-view.and.data.api/CurrentMapFilename.json
+echo $FILENAME > CurrentMapFilename.json
 sleep 5
 cd ../workflow-curl-view.and.data.api && ./viewerAPI registerProgress $FILENAME
