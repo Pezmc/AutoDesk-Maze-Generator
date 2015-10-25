@@ -19,6 +19,7 @@
 var startingMazeCoord = {x: 1, y: 1};
 var currentMazeCoord = {x: startingMazeCoord.x, y: startingMazeCoord.y};
 var finishingMazeCoord = {'x': 20, 'y': 19};
+//var finishingMazeCoord = {'x': 2, 'y': 1}; // cheat finish coords
 
 var soundMenuMusic = new buzz.sound('/sounds/MenuMusic.ogg', {autoplay: true, volume: 30, loop: true});
 var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {volume: 15, loop: true});
@@ -248,7 +249,9 @@ function move(direction) {
 }
 
 function reachedFinish() {
+    soundBgMusic.fadeOut(100);
     soundFinished.play();
+    $('#finished').fadeIn(100);
 }
 
 function rotate(direction) {

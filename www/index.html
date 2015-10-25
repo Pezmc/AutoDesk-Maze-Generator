@@ -54,7 +54,7 @@
                 if(playWhenLoaded) {
                     beginGame();
                 }
-            }, 5000);
+            }, 6000);
             setTimeout(function() {
                 $('#splash #inner').fadeIn(5000);
                 $('#playButton').click(function() {
@@ -65,6 +65,9 @@
                         $('#message').html('Preparing maze...').fadeIn(600);
                         playWhenLoaded = true;
                     }
+                });
+                $('#playAgainButton').click(function() {
+                    location.reload();
                 });
             });
         });
@@ -82,7 +85,7 @@
             padding: 10px;
         }
         
-        #splash {
+        #splash, #finished {
             position: fixed;
             width: 100%;
             height: 100%;
@@ -92,8 +95,8 @@
             z-index: 1000;
         }
         
-        #splash #inner {
-            width: 400px;
+        #splash #inner, #finished #inner {
+            width: 450px;
             margin-top: 10%;
             margin-left: auto;
             margin-right: auto;
@@ -122,9 +125,17 @@
 <body style="margin:0">
     <div id="splash">
         <div id="inner" style="display: none;">
-            <h4>Welcome to</h4>
+            <h4>Welcome to...</h4>
             <h1>The Maize</h1>
             <div id="playButton" class="button play">Dare to enter?</div>
+            <div id="message"></div>
+        </div>
+    </div>
+    <div id="finished" style="display: none;">
+        <div id="inner">
+            <h1>You made it!</h1>
+            <h4>This time...</h4>
+            <div id="playAgainButton" class="button play">Care to play again?</div>
             <div id="message"></div>
         </div>
     </div>
