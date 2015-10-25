@@ -37,8 +37,6 @@ node_modules
 Thumbs.db
 *.bak
 
-www/urn.js
-
 CurrentMapFilename.json
 
 CurrentMaze.js
