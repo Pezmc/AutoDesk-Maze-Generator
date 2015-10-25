@@ -20,7 +20,30 @@ var startingMazeCoord = {x: 1, y: 1};
 var currentMazeCoord = {x: startingMazeCoord.x, y: startingMazeCoord.y};
 var finishingMazeCoord = {'x': 20, 'y': 19};
 
-var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {autoplay: true, volume: 15, loop: true});
+var maze = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
+            [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1],
+            [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1],
+            [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1],
+            [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
+            [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
+
+var soundMenuMusic = new buzz.sound('/sounds/MenuMusic.ogg', {autoplay: true, volume: 30, loop: true});
+var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {volume: 15, loop: true});
 var soundWallHit = new buzz.sound('/sounds/WallHit.ogg');
 var soundFinished = new buzz.sound('/sounds/Finished.ogg');
 
@@ -150,19 +173,23 @@ $(document).ready(function() {
         enableKeys = false;
 
         switch (evt.which) {
+            case 65: // a
             case 37: // left
                 rotate('left');
                 break;
+            case 87: // w
             case 38: // up
                 move('forwards');
                 break;
+            case 68: // d
             case 39: // right
                 rotate('right');
                 break;
+            case 83: // s
             case 40: // down
                 move('backwards');
                 break;
-            case 32:
+            case 80: // p key
                 resetView();
                 break;
             default:

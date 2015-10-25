@@ -39,23 +39,49 @@
     
     <script>
         $(document).ready(function() {
+            var probablyLoaded = false;
+            var playWhenLoaded = false;
+            
+            var beginGame = function() {
+                resetView();
+                setTimeout(function() {$('#splash').hide()}, 1000);
+                soundMenuMusic.fadeOut();
+                soundBgMusic.setVolume(15);
+                soundBgMusic.fadeTo(15);
+            }
             setTimeout(function() {
-                $('#splash #inner').fadeIn(3000);
+                probablyLoaded = true;
+                if(playWhenLoaded) {
+                    beginGame();
+                }
+            }, 5000);
+            setTimeout(function() {
+                $('#splash #inner').fadeIn(5000);
                 $('#playButton').click(function() {
-                    resetView();
-                    setTimeout(function() {$('#splash').hide()}, 1000);
                     
+                    if(probablyLoaded) {
+                        beginGame();
+                    } else {
+                        $('#message').html('Preparing maze...').fadeIn(600);
+                        playWhenLoaded = true;
+                    }
                 });
             });
         });
     </script>
     
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Press+Start+2P' rel='stylesheet' type='text/css'>    
     
     <style>
         body {
-            font-family: 'Open Sans', sans-serif;
+            font-family: 'Press Start 2P', sans-serif;
         }
+        
+        h1, h4 {
+            background: #555;
+            padding: 10px;
+        }
+        
         #splash {
             position: fixed;
             width: 100%;
@@ -71,14 +97,24 @@
             margin-top: 10%;
             margin-left: auto;
             margin-right: auto;
+            text-align: center;
         }
         
         .button {
             display: inline-block;
-            padding: 10px;
+            padding: 20px;
             border-radius: 5px;
             background: #0000ff;
             color: white;
+            cursor: pointer;
+            margin-left: auto;
+        }
+        
+        #message {
+            display: none;
+            background: #855;
+            padding: 10px;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -88,7 +124,8 @@
         <div id="inner" style="display: none;">
             <h4>Welcome to</h4>
             <h1>The Maize</h1>
-            <div id="playButton" class="button play">Begin...</div>
+            <div id="playButton" class="button play">Dare to enter?</div>
+            <div id="message"></div>
         </div>
     </div>
 	<div id="viewerDiv"></div>
