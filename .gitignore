@@ -28,7 +28,7 @@ node_modules
 .lock-wscript
 
 # API credentials file
-credentials.js
+# credentials.js
 
 # webstorm project files
 .idea
