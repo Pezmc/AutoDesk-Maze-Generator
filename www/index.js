@@ -240,18 +240,24 @@ function move(direction) {
         console.log('Restored Maze Position: ', currentMazeCoord);
         return false;
     }
+
+    console.log('New Maze Position: ', currentMazeCoord);
+    updateCameraPosition(position);
     
     if(currentMazeCoord.x == finishingMazeCoord.x && currentMazeCoord.y == finishingMazeCoord.y)
         reachedFinish();
-    
-    console.log('New Maze Position: ', currentMazeCoord);
-    updateCameraPosition(position);
+
 }
 
 function reachedFinish() {
     soundBgMusic.fadeOut(100);
     soundFinished.play();
-    $('#finished').fadeIn(100);
+
+    viewer.navigation.setRequestTransitionWithUp(true, new THREE.Vector3(0,0,1.25), new THREE.Vector3(0,0,0), viewer.getFOV(), new THREE.Vector3(0, 0, 1));
+
+    setTimeout(function() {
+        $('#finished').fadeIn(100);
+    }, 7500);
 }
 
 function rotate(direction) {
