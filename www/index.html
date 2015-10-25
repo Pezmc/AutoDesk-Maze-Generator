@@ -45,7 +45,7 @@
             var beginGame = function() {
                 resetView();
                 setTimeout(function() {$('#splash').hide()}, 1000);
-                soundMenuMusic.fadeOut();
+                soundMenuMusic.fadeOut(100);
                 soundBgMusic.setVolume(15);
                 soundBgMusic.fadeTo(15);
             }
