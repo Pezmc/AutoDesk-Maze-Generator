@@ -36,3 +36,11 @@ credentials.js
 .DS_store
 Thumbs.db
 *.bak
+
+www/urn.js
+
+CurrentMapFilename.json
+
+CurrentMaze.js
+
+*.stl
