@@ -35,22 +35,62 @@
 
     <script src="/index.js"></script>
     
+    <script>
+        $(document).ready(function() {
+            setTimeout(function() {
+                $('#splash #inner').fadeIn(3000);
+                $('#playButton').click(function() {
+                    resetView();
+                    setTimeout(function() {$('#splash').hide()}, 1000);
+                    
+                });
+            });
+        });
+    </script>
+    
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    
     <style>
+        body {
+            font-family: 'Open Sans', sans-serif;
+        }
         #splash {
             position: fixed;
             width: 100%;
             height: 100%;
             left: 0;
             top: 0;
-            background: rgba(51,51,51,0.7);
+            background: #222;
             z-index: 1000;
+        }
+        
+        #splash #inner {
+            width: 400px;
+            margin-top: 10%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .button {
+            display: inline-block;
+            padding: 10px;
+            border-radius: 5px;
+            background: #0000ff;
+            color: white;
         }
     </style>
 </head>
 
 <body style="margin:0">
-    <div id="splash">jiblets</div>
+    <div id="splash">
+        <div id="inner" style="display: none;">
+            <h4>Welcome to</h4>
+            <h1>The Maize</h1>
+            <div id="playButton" class="button play">Begin...</div>
+        </div>
+    </div>
 	<div id="viewerDiv"></div>
+    
 	
 </body>
 </html>

@@ -42,6 +42,7 @@ var maze = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
 
+var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {autoplay: true, volume: 15, autoplay: true});
 var soundWallHit = new buzz.sound('/sounds/WallHit.ogg');
 var soundFinished = new buzz.sound('/sounds/Finished.ogg');
 
@@ -203,7 +204,7 @@ function onError(error) {
 };
 
 function resetView() {
-    viewer.setBackgroundColor(255, 0, 0, 255, 0, 0);
+    viewer.setBackgroundColor(0, 0, 100, 0, 0, 30);
     viewer.setLightPreset(7);
     viewer.setFocalLength(1);
     viewer.navigation.setWorldUpVector(new THREE.Vector3(0, 0, 1), true);
