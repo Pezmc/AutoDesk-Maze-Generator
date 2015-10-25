@@ -42,7 +42,7 @@ var maze = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
 
-var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {autoplay: true, volume: 15, autoplay: true});
+var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {autoplay: true, volume: 15, loop: true});
 var soundWallHit = new buzz.sound('/sounds/WallHit.ogg');
 var soundFinished = new buzz.sound('/sounds/Finished.ogg');
 
