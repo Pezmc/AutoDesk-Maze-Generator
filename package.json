@@ -3,7 +3,9 @@
   "description": "A basic node.js server sample",
   "version": "1.0.0",
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": ">= 4.12.3",
+    "pusher": "^1.0.6",
     "request": ">= 2.55.0",
     "serve-favicon": ">= 2.2.0",
     "strftime": "^0.9.2"

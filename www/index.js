@@ -143,7 +143,10 @@ $(document).ready(function() {
         console.log(viewer.navigation.getRequestHomeView());
     }, onError);
     
-    $(window).keydown(function(evt) {
+    $(window).keydown(handleKeyDown);
+    $('canvas').keydown(handleKeyDown);
+
+    function handleKeyDown(evt) {
         evt.stopPropagation();
         evt.preventDefault();
         // If it's still running a transition, then the user can get stuffed.
@@ -177,6 +180,48 @@ $(document).ready(function() {
             enableKeys = true;
         }, 400);
         return false;
+    };
+
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) {
+        window.console.log(message);
+      }
+    };
+
+    var pusher = new Pusher('d0044bd87305ece46d23', {
+      encrypted: true
+    });
+    var channel = pusher.subscribe('private-channel');
+
+    channel.bind('client-move', function(data) {
+        if(!viewer) {
+            console.log('Move requested but no viewer loaded');
+            return; // Not loaded yet
+        }
+        
+        switch(data.direction) {
+            case 'left':
+                console.log('Moving left thanks to iphone');
+                rotate('left');
+                break;
+            case 'up':
+                console.log('Moving forwards thanks to iphone');
+                move('forwards');
+                break;
+            case 'right':
+                console.log('Moving right thanks to iphone');
+                rotate('right');
+                break;
+            case 'down':
+                console.log('Moving backwards thanks to iphone');
+                move('backwards');
+                break;
+            case 'reset':
+                resetView();
+                break;
+            default:
+                console.log('Unknown direction', data.direction);
+        }
     });
 
 });

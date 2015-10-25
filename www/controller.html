@@ -1,0 +1,72 @@
+<html>
+<head>
+<meta name="viewport" content="width=600, initial-scale=1">
+
+<style>
+table { width: 600px; margin: 0 auto;}
+tr a {
+  width: 200px;
+  height: 180px;
+  border: 1px solid black;
+  border-radius: 5px;
+  display: inline-block;
+  font-size: 200px;
+  padding-top: 20px;
+  line-height: 180px;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+}
+
+tr a {
+	color: black;
+}
+</style>
+
+<script src="https://js.pusher.com/3.0/pusher.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script>
+// Enable pusher logging - don't include this in production
+Pusher.log = function(message) {
+  if (window.console && window.console.log) {
+    window.console.log(message);
+  }
+};
+
+var pusher = new Pusher('d0044bd87305ece46d23', {
+  encrypted: true
+});
+
+
+var channel = pusher.subscribe('private-channel');
+
+</script>
+</head>
+<body>
+
+  <table>
+  <tr>
+  	<td></td>
+  	<td><a data-direction="up" href="#">W</a></td>
+  	<td></td>
+  </tr>
+  <tr>
+  	<td><a data-direction="left" href="#">A</a></td>
+  	<td><a data-direction="down" href="#">S</a></td>
+  	<td><a data-direction="right" href="#">D</a></td></tr>
+  </td>
+
+<script>
+$(document).ready(function() {
+	$('table td a').click(function(evt) {
+    evt.preventDefault();
+
+		channel.trigger('client-move', { direction: $(this).data('direction') });
+
+    return false;
+	});
+});
+</script>
+</body>
+
+</html>
