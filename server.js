@@ -27,6 +27,19 @@ app.use('/api', api);
 
 app.set('port', process.env.PORT || 3000);
 
+var fs = require('fs');
+var currentMapFilename = fs.readFileSync("CurrentMapFilename.json", { encoding: 'utf8' }).replace(/(\n|\r)+$/, '');
+
+var mapJSON = require('../workflow-curl-view.and.data.api/data/hackmcr.' + currentMapFilename + '.json');
+
+var b = new Buffer(mapJSON.objects[0].id);
+var urn = b.toString('base64');
+
+var currentMaze = fs.readFileSync("CurrentMaze.js", { encoding: 'utf8' }).replace(/(\n|\r)+$/, '');
+
+fs.writeFileSync('./www/urn.js', 'urn = "' + urn +'"; maze = ' + currentMaze + ';');
+
 var server = app.listen(app.get('port'), function() {
     console.log('Server listening on port ' + server.address().port);
 });
+

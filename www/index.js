@@ -20,28 +20,6 @@ var startingMazeCoord = {x: 1, y: 1};
 var currentMazeCoord = {x: startingMazeCoord.x, y: startingMazeCoord.y};
 var finishingMazeCoord = {'x': 20, 'y': 19};
 
-var maze = [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
-            [1,0,1,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0,0,1],
-            [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,0,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0,1],
-            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,1,0,0,0,1,0,1,0,1,0,0,0,1,0,1,0,1,0,1],
-            [1,0,1,0,1,1,1,1,1,0,1,0,1,0,1,0,1,1,1,0,1],
-            [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,1,0,1,0,0,0,1,0,1,0,1,0,1,0,0,0,1,0,1],
-            [1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1],
-            [1,0,1,0,0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,1,1,1,1,1,0,1,0,1,0,1,1,1,0,1,0,1,1,1],
-            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1],
-            [1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,1,0,1],
-            [1,0,1,0,1,0,1,0,1,0,1,1,1,0,1,1,1,0,1,0,1],
-            [1,0,1,0,1,0,1,0,1,0,1,0,0,0,1,0,0,0,1,0,1],
-            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1],
-            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,1]];
-
 var soundBgMusic = new buzz.sound('/sounds/BgMusic.ogg', {autoplay: true, volume: 15, autoplay: true});
 var soundWallHit = new buzz.sound('/sounds/WallHit.ogg');
 var soundFinished = new buzz.sound('/sounds/Finished.ogg');
@@ -124,7 +102,8 @@ var events = [{
 }];
 
 
-var defaultUrn = 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV8wMF80My5zdGw=';
+var defaultUrn = urn; // comes from URN.js
+    //'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9uZXdfbWF6ZV8wMF80My5zdGw=';
     //'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6aGFja21jci9tYXplLnN0bA==';
 //https://developer.api.autodesk.com/oss/v1/buckets/hackmcr/objects/scad.scad
 var viewer;

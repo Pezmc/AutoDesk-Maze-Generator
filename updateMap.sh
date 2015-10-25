@@ -8,5 +8,6 @@ cd ../workflow-curl-view.and.data.api && ./viewerAPI bucketCreate hackmcr
 cd ../workflow-curl-view.and.data.api && ./viewerAPI upload $FILENAME
 cd ../workflow-curl-view.and.data.api && ./viewerAPI register $FILENAME
 cd ../workflow-curl-view.and.data.api && ./viewerAPI registerProgress $FILENAME
+echo $FILENAME > ../workflow-node.js-view.and.data.api/CurrentMapFilename.json
 sleep 5
 cd ../workflow-curl-view.and.data.api && ./viewerAPI registerProgress $FILENAME
